@@ -1,37 +1,50 @@
 <script src="../../bower_components/webcomponentsjs/webcomponents.js"></script>
 <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
 <link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
 <script src="../../shirtlessAPI.js"></script>
 
 <dom-module id="image-gallery">
 <style>
-    button {
+    #searchButton {
             background-color: tan;
-        }
-        #toolbar {
-            background: orange;
-        }
-        #user-input {
-            width: 30%
-        }
-        .image {
-            margin: 24px;
-            border-color: white;
-            border-width: 8px;
-            border-style: solid;
-        }
-        .content-wrapper {
-            background: darkslategray;
-        }
+    }
+    #toolbar {
+        background: orange;
+    }
+    #user-input {
+        width: 30%
+    }
+    .image {
+        margin: 24px;
+        border-color: white;
+        border-width: 8px;
+        border-style: solid;
+    }
+    .content-wrapper {
+        background: darkslategray;
+    }
+    .imageButtons {
+        text-align: center;
+        width: 50%;
+    }
 </style>
 
 <template>
     <input id="input" value="{{searchString::input}}"></input>
-    <button on-click="handleClick">Regular Button</button>
+    <button id="searchButton" on-click="handleClick">Search!</button>
     <div id="gallery-container">Results:</div>
     <template is="dom-repeat" items="{{images}}">
         <div>
-            <img class="image" src="{{item.src}}" alt="{{item.title}}">
+            <div class="imageView">
+                <img class="image" src="{{item.src}}" alt="{{item.title}}">
+            </div>
+            <div class="imageButtons">
+                <paper-button raised><iron-icon icon="favorite"></iron-icon>Save</paper-button>
+                <paper-button raised><iron-icon icon="file-upload"></iron-icon>Share</paper-button>
+            </div>
         </div>
     </template>
 </template>
@@ -51,16 +64,10 @@
             queryString: ""
         },
 
-        updateImages: function(e){
-            console.log("updateImages called");
-            this.images = shirtlessAPI.get()
-        },
-
         handleClick: function(e){
             queryString = $('#input')[0].value;
             this.images = shirtlessAPI.get(queryString);
             console.log(this.images);
-            console.log(queryString);
         }
     })
 </script>
