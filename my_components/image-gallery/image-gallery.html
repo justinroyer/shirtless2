@@ -33,8 +33,11 @@
 </style>
 
 <template>
-    <input id="input" value="{{searchString::input}}"></input>
-    <button id="searchButton" on-click="handleClick">Search!</button>
+    <form method=”get” id="searchForm" on-submit="handleSubmit">
+        <input type="text" name=”q” id="input" value="{{searchString::input}}"></input>
+        <button id="searchButton" on-click="handleClick">Search!</button>
+    </form>
+    
     <div id="gallery-container">Results:</div>
     <template is="dom-repeat" items="{{images}}">
         <div>
@@ -53,7 +56,7 @@
 <script>
     Polymer ({
         is: "image-gallery",
-
+        
         properties: {
             images: {
                 type: Array,
@@ -65,9 +68,19 @@
         },
 
         handleClick: function(e){
+            console.log('handling click...');
             queryString = $('#input')[0].value;
-            this.images = shirtlessAPI.get(queryString);
             console.log(this.images);
+        },
+
+        handleSubmit: function(e){
+            console.log(e);
+            console.log('submitted');
+            e.preventDefault();
+            this.images = shirtlessAPI.get(queryString);
         }
-    })
+    });
+
+    
+
 </script>
